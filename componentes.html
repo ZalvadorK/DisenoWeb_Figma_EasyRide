@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Ride — Componentes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+<style>
+  html, body { height: 100%; display: flex; flex-direction: column; background: #F0EFED; }
+
+  /* ── Dropdown trigger ── */
+  .dd-wrap { position: relative; }
+  .dd-trigger {
+    display: flex; align-items: center; gap: .4rem;
+    padding: .42rem .6rem; border: none; background: transparent;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    color: var(--black); cursor: pointer; border-radius: var(--radius-sm);
+    transition: background var(--t);
+  }
+  .dd-trigger:hover, .dd-trigger.open { background: var(--gray-100); }
+  .dd-trigger img.trigger-icon { width: 22px; height: 22px; object-fit: contain; }
+  .chevron { width: 10px; height: 10px; flex-shrink: 0; color: var(--gray-400); transition: transform var(--t); }
+  .dd-trigger.open .chevron { transform: rotate(180deg); }
+
+  /* ── Dropdown panel ── */
+  .dd-panel {
+    position: absolute; top: calc(100% + 8px); right: 0;
+    background: var(--white); border: 1px solid var(--gray-200);
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.10), 0 16px 48px rgba(0,0,0,.08);
+    z-index: 400; overflow: hidden;
+    transform-origin: top right;
+    transform: scale(.94) translateY(-6px); opacity: 0; pointer-events: none;
+    transition: transform .18s cubic-bezier(.22,.68,0,1.1), opacity .16s ease;
+  }
+  .dd-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+  /* Marcas */
+  .dd-marcas { width: 200px; }
+  .dd-marcas__header { padding: .85rem 1rem .5rem; display: flex; align-items: center; justify-content: space-between; }
+  .dd-marcas__title { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-400); }
+  .dd-marcas__clear { font-size: 11px; font-weight: 600; color: var(--red); background: none; border: none; cursor: pointer; }
+  .dd-marcas__search { margin: 0 .75rem .55rem; position: relative; }
+  .dd-marcas__search input {
+    width: 100%; padding: .48rem .75rem .48rem 2rem;
+    background: var(--gray-100); border: 1.5px solid transparent;
+    border-radius: var(--radius-sm); font-family: var(--font-body);
+    font-size: 13px; color: var(--black); outline: none; transition: border-color var(--t);
+  }
+  .dd-marcas__search input:focus { border-color: var(--black); background: var(--white); }
+  .dd-marcas__search input::placeholder { color: var(--gray-400); }
+  .dd-marcas__search-icon { position: absolute; left: .6rem; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; opacity: .45; pointer-events: none; }
+
+  .marcas-list { list-style: none; max-height: 280px; overflow-y: auto; padding-bottom: .5rem; }
+  .marcas-list::-webkit-scrollbar { width: 4px; }
+  .marcas-list::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+
+  .marca-item { display: flex; align-items: center; gap: .75rem; padding: .55rem 1rem; cursor: pointer; transition: background var(--t); position: relative; }
+  .marca-item:hover { background: var(--gray-100); }
+  .marca-item.selected { background: var(--gray-50); }
+  .marca-item.selected::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; background: var(--black); border-radius: 0 3px 3px 0; }
+  .marca-logo { width: 28px; height: 28px; border-radius: 6px; background: var(--gray-100); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 9px; font-weight: 800; color: var(--gray-600); }
+  .marca-name { font-size: 14px; font-weight: 500; color: var(--black); flex: 1; }
+  .marca-check { width: 16px; height: 16px; flex-shrink: 0; opacity: 0; transition: opacity var(--t); }
+  .marca-item.selected .marca-check { opacity: 1; }
+
+  /* Países */
+  .dd-paises { width: 200px; }
+  .dd-paises__header { padding: .85rem 1rem .5rem; }
+  .dd-paises__title { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-400); }
+
+  .paises-list { list-style: none; padding-bottom: .5rem; }
+  .pais-item { display: flex; align-items: center; gap: .85rem; padding: .6rem 1rem; cursor: pointer; transition: background var(--t); position: relative; }
+  .pais-item:hover { background: var(--gray-100); }
+  .pais-item.active { background: var(--gray-50); }
+  .pais-item.active::before { content: ''; position: absolute; left: 0; top: 15%; bottom: 15%; width: 3px; background: var(--black); border-radius: 0 3px 3px 0; }
+  .pais-flag { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+  .pais-name { font-size: 14px; font-weight: 500; color: var(--black); flex: 1; }
+
+  /* Icon btn */
+  .icon-btn { display: flex; align-items: center; justify-content: center; padding: .4rem; border: none; background: transparent; cursor: pointer; border-radius: var(--radius-sm); transition: background var(--t); }
+  .icon-btn:hover { background: var(--gray-100); }
+  .icon-btn img { width: 22px; height: 22px; object-fit: contain; }
+
+  /* Stage & preview cards */
+  .comp-stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; padding: 2.5rem 1rem; }
+  .comp-label { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gray-400); text-align: center; }
+  .hint { font-size: 12px; color: var(--gray-400); font-weight: 500; background: var(--white); border-radius: 20px; padding: .3rem .9rem; border: 1px solid var(--gray-200); }
+  .cards-row { display: flex; gap: 1.5rem; width: 100%; max-width: 740px; justify-content: center; flex-wrap: wrap; }
+  .preview-card { background: var(--white); border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.07), 0 12px 36px rgba(0,0,0,.09); padding: 1.2rem 1.4rem; flex: 1 1 280px; max-width: 340px; animation: riseIn .4s cubic-bezier(.22,.68,0,1.2) both; }
+  .preview-card:nth-child(2) { animation-delay: .1s; }
+  .preview-card__title { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; font-style: italic; color: var(--black); letter-spacing: .01em; margin-bottom: .9rem; display: flex; align-items: center; gap: .55rem; }
+  .preview-card__title span { width: 4px; height: 18px; background: var(--red); border-radius: 2px; display: inline-block; }
+
+  /* Inline lists */
+  .marcas-inline, .paises-inline { list-style: none; }
+  .marcas-inline li, .paises-inline li { display: flex; align-items: center; gap: .75rem; padding: .5rem .55rem; border-radius: var(--radius-sm); cursor: pointer; transition: background var(--t), transform var(--t); }
+  .marcas-inline li:hover, .paises-inline li:hover { background: var(--gray-100); transform: translateX(3px); }
+  .mi-logo { width: 28px; height: 28px; border-radius: 7px; background: var(--gray-100); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 9px; font-weight: 800; color: var(--gray-600); border: 1px solid var(--gray-200); }
+  .mi-name { font-size: 14px; font-weight: 500; color: var(--black); }
+  .mi-count { margin-left: auto; font-size: 11px; color: var(--gray-400); font-weight: 500; }
+  .pi-flag { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,.14); transition: transform var(--t); }
+  .paises-inline li:hover .pi-flag { transform: scale(1.08); }
+  .pi-name { font-size: 14px; font-weight: 500; color: var(--black); }
+  .pi-check { margin-left: auto; width: 16px; height: 16px; opacity: 0; transition: opacity var(--t); }
+  .paises-inline li.active .pi-check { opacity: 1; }
+  .paises-inline li.active .pi-name { font-weight: 700; }
+  .marcas-inline li.selected .mi-name { font-weight: 700; }
+
+  @keyframes fadeSlide { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+  .marcas-inline li, .paises-inline li { animation: fadeSlide .3s ease both; }
+  .marcas-inline li:nth-child(1) { animation-delay:.04s } .marcas-inline li:nth-child(2) { animation-delay:.07s }
+  .marcas-inline li:nth-child(3) { animation-delay:.10s } .marcas-inline li:nth-child(4) { animation-delay:.13s }
+  .marcas-inline li:nth-child(5) { animation-delay:.16s } .marcas-inline li:nth-child(6) { animation-delay:.19s }
+  .marcas-inline li:nth-child(7) { animation-delay:.22s } .marcas-inline li:nth-child(8) { animation-delay:.25s }
+  .marcas-inline li:nth-child(9) { animation-delay:.28s }
+  .paises-inline li:nth-child(1) { animation-delay:.04s } .paises-inline li:nth-child(2) { animation-delay:.08s }
+  .paises-inline li:nth-child(3) { animation-delay:.12s } .paises-inline li:nth-child(4) { animation-delay:.16s }
+  .paises-inline li:nth-child(5) { animation-delay:.20s } .paises-inline li:nth-child(6) { animation-delay:.24s }
+  .paises-inline li:nth-child(7) { animation-delay:.28s } .paises-inline li:nth-child(8) { animation-delay:.32s }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="header__logo">
+      <img src="https://i.postimg.cc/4dS8BKHQ/Logo-Principal-de-la-Pagina-En-Negro.png" alt="Easy Ride">
+    </a>
+    <nav class="header__nav">
+      <a href="index.html">Inicio</a>
+      <a href="componentes.html">vehículos</a>
+    </nav>
+    <div class="header__search-wrap">
+      <img src="https://i.postimg.cc/9MM8dP0h/Icono-Lupa.png" alt="">
+      <input type="text" placeholder="Buscar vehículo…">
+    </div>
+    <div class="header__icons">
+      <!-- Marcas dropdown -->
+      <div class="dd-wrap" id="dd-marcas-wrap">
+        <button class="dd-trigger" id="btn-marcas" onclick="toggleDD('marcas')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Marcas
+          <svg class="chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="dd-panel dd-marcas" id="panel-marcas">
+          <div class="dd-marcas__header">
+            <span class="dd-marcas__title">Marca</span>
+            <button class="dd-marcas__clear" onclick="clearMarcas()">Limpiar</button>
+          </div>
+          <div class="dd-marcas__search">
+            <img class="dd-marcas__search-icon" src="https://i.postimg.cc/9MM8dP0h/Icono-Lupa.png" alt="">
+            <input type="text" placeholder="Buscar…" id="marca-search" oninput="filterMarcas(this.value)">
+          </div>
+          <ul class="marcas-list" id="marcas-dd-list"></ul>
+        </div>
+      </div>
+      <!-- Países dropdown -->
+      <div class="dd-wrap" id="dd-paises-wrap">
+        <button class="dd-trigger" id="btn-paises" onclick="toggleDD('paises')">
+          <img class="trigger-icon" src="https://i.postimg.cc/5007B5y8/Icono-Nacionalidad.png" alt="Idioma">
+          <svg class="chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div class="dd-panel dd-paises" id="panel-paises">
+          <div class="dd-paises__header"><span class="dd-paises__title">Región / Idioma</span></div>
+          <ul class="paises-list" id="paises-dd-list"></ul>
+        </div>
+      </div>
+      <a href="registrarse.html"><img src="https://i.postimg.cc/26KH2qLn/Icono-Usuario.png" alt="Usuario"></a>
+      <a href="comprar.html"><img src="https://i.postimg.cc/43w2H2fk/Icono-Carrito-Compra.png" alt="Carrito"></a>
+    </div>
+  </div>
+</header>
+
+<div class="comp-stage">
+  <p class="comp-label">Componentes — vista expandida</p>
+  <p class="hint">Haz clic en "Marcas" o en el globo del header ↑</p>
+  <div class="cards-row">
+    <div class="preview-card">
+      <p class="preview-card__title"><span></span>Marcas</p>
+      <ul class="marcas-inline" id="marcas-inline-list"></ul>
+    </div>
+    <div class="preview-card">
+      <p class="preview-card__title"><span></span>Países</p>
+      <ul class="paises-inline" id="paises-inline-list"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const MARCAS = [
+  {name:'Toyota',abbr:'TYT',count:14},{name:'Ford',abbr:'FRD',count:9},
+  {name:'Chevrolet',abbr:'CHV',count:11},{name:'Honda',abbr:'HND',count:8},
+  {name:'BMW',abbr:'BMW',count:6},{name:'Audi',abbr:'ADI',count:5},
+  {name:'Nissan',abbr:'NSN',count:7},{name:'Volkswagen',abbr:'VW',count:4},
+  {name:'Mercedes',abbr:'MB',count:3},
+];
+const PAISES = [
+  {name:'Bolivia',flag:'https://www.pngplay.com/wp-content/uploads/6/Bolivia-Flag-Circle-PNG-Clipart-Background.png'},
+  {name:'China',flag:'https://static.vecteezy.com/system/resources/previews/011/571/507/original/circle-flag-of-china-free-png.png'},
+  {name:'Canada',flag:'https://png.pngtree.com/png-clipart/20231101/original/pngtree-round-country-flag-canada-png-image_13466928.png'},
+  {name:'Dinamarca',flag:'https://static.vecteezy.com/system/resources/previews/011/571/517/original/circle-flag-of-denmark-free-png.png'},
+  {name:'Ecuador',flag:'https://static.vecteezy.com/system/resources/previews/011/571/449/original/circle-flag-of-ecuador-free-png.png'},
+  {name:'España',flag:'https://static.vecteezy.com/system/resources/previews/011/571/522/original/circle-flag-of-spain-free-png.png'},
+  {name:'EE.UU',flag:'https://static.vecteezy.com/system/resources/previews/011/571/446/original/circle-flag-of-usa-free-png.png'},
+  {name:'Mexico',flag:'https://static.vecteezy.com/system/resources/previews/011/571/244/original/circle-flag-of-mexico-free-png.png'},
+];
+
+let selMarca = null, selPais = 'Mexico';
+
+const chkSVG = () => `<svg class="marca-check" viewBox="0 0 16 16" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.5,8 6.5,12 13.5,4"/></svg>`;
+const piChk  = () => `<svg class="pi-check" viewBox="0 0 16 16" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.5,8 6.5,12 13.5,4"/></svg>`;
+
+function renderMarcasDD(f='') {
+  document.getElementById('marcas-dd-list').innerHTML =
+    MARCAS.filter(m=>m.name.toLowerCase().includes(f.toLowerCase())).map(m=>`
+      <li class="marca-item ${selMarca===m.name?'selected':''}" onclick="selectMarca('${m.name}')">
+        <div class="marca-logo">${m.abbr}</div><span class="marca-name">${m.name}</span>${chkSVG()}
+      </li>`).join('');
+}
+function renderPaisesDD() {
+  document.getElementById('paises-dd-list').innerHTML =
+    PAISES.map(p=>`
+      <li class="pais-item ${selPais===p.name?'active':''}" onclick="selectPais('${p.name}')">
+        <img class="pais-flag" src="${p.flag}" alt="${p.name}" loading="lazy">
+        <span class="pais-name">${p.name}</span>
+      </li>`).join('');
+}
+function renderMarcasInline() {
+  document.getElementById('marcas-inline-list').innerHTML =
+    MARCAS.map(m=>`
+      <li class="${selMarca===m.name?'selected':''}" onclick="selMarca=selMarca==='${m.name}'?null:'${m.name}';renderMarcasInline();renderMarcasDD()">
+        <div class="mi-logo">${m.abbr}</div><span class="mi-name">${m.name}</span><span class="mi-count">${m.count}</span>
+      </li>`).join('');
+}
+function renderPaisesInline() {
+  document.getElementById('paises-inline-list').innerHTML =
+    PAISES.map(p=>`
+      <li class="${selPais===p.name?'active':''}" onclick="selectPais('${p.name}');renderPaisesInline()">
+        <img class="pi-flag" src="${p.flag}" alt="${p.name}" loading="lazy">
+        <span class="pi-name">${p.name}</span>${piChk()}
+      </li>`).join('');
+}
+function selectMarca(n){selMarca=selMarca===n?null:n;renderMarcasDD(document.getElementById('marca-search').value);renderMarcasInline();}
+function selectPais(n){selPais=n;renderPaisesDD();renderPaisesInline();closeAll();}
+function clearMarcas(){selMarca=null;document.getElementById('marca-search').value='';renderMarcasDD();renderMarcasInline();}
+function filterMarcas(v){renderMarcasDD(v);}
+function toggleDD(w){
+  const o=w==='marcas'?'paises':'marcas';
+  const p=document.getElementById('panel-'+w);
+  const isOpen=p.classList.contains('open');
+  closeAll();
+  if(!isOpen){p.classList.add('open');document.getElementById('btn-'+w).classList.add('open');}
+}
+function closeAll(){['marcas','paises'].forEach(id=>{document.getElementById('panel-'+id).classList.remove('open');document.getElementById('btn-'+id).classList.remove('open');});}
+document.addEventListener('click',e=>{if(!e.target.closest('.dd-wrap'))closeAll();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();});
+renderMarcasDD();renderPaisesDD();renderMarcasInline();renderPaisesInline();
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Ride — Acceso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+<style>
+  html, body { height: 100%; display: flex; flex-direction: column; }
+  body { background: #F0EFED; }
+
+  /* Tabs */
+  .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1.5px solid var(--gray-200); }
+  .tab-btn {
+    padding: 1rem .5rem; background: transparent; border: none;
+    font-family: var(--font-body); font-size: 15px; font-weight: 500;
+    color: var(--gray-400); cursor: pointer; position: relative; transition: color var(--t);
+  }
+  .tab-btn::after {
+    content: ''; position: absolute; bottom: -1.5px; left: 20%; width: 60%; height: 2px;
+    background: var(--black); border-radius: 2px; transform: scaleX(0); transition: transform var(--t);
+  }
+  .tab-btn.active { color: var(--black); font-weight: 600; }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  /* Panel */
+  .auth-panel { padding: 1.8rem 2rem 2rem; display: flex; flex-direction: column; gap: .9rem; }
+  .auth-panel[hidden] { display: none; }
+
+  /* Inputs */
+  .input-wrap { position: relative; }
+  .auth-input {
+    width: 100%; padding: .8rem 1rem;
+    background: var(--gray-100); border: 1.5px solid transparent;
+    border-radius: var(--radius-md); font-family: var(--font-body);
+    font-size: 14.5px; color: var(--black); outline: none;
+    transition: border-color var(--t), background var(--t), box-shadow var(--t);
+  }
+  .auth-input::placeholder { color: var(--gray-600); font-size: 14px; }
+  .auth-input:focus { border-color: var(--black); background: var(--white); box-shadow: 0 0 0 3px rgba(10,10,10,.07); }
+
+  /* Eye */
+  .eye-btn {
+    position: absolute; right: .85rem; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; padding: 0;
+    color: var(--gray-400); display: flex; align-items: center; transition: color var(--t);
+  }
+  .eye-btn:hover { color: var(--black); }
+
+  /* Links */
+  .auth-links { display: flex; flex-direction: column; gap: .2rem; margin-top: -.2rem; }
+  .auth-links a { font-size: 13px; color: var(--link); transition: opacity var(--t); width: fit-content; }
+  .auth-links a:hover { opacity: .7; text-decoration: underline; }
+
+  /* CTA */
+  .btn-cta {
+    width: 100%; padding: .9rem 1rem; background: var(--accent); color: var(--white);
+    border: none; border-radius: var(--radius-md); font-family: var(--font-body);
+    font-size: 15px; font-weight: 600; letter-spacing: .02em; cursor: pointer;
+    box-shadow: 0 4px 18px rgba(212,137,90,.35);
+    transition: background var(--t), transform var(--t), box-shadow var(--t);
+  }
+  .btn-cta:hover { background: #C07848; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(192,120,72,.38); }
+
+  /* Quick */
+  .auth-quick { text-align: center; font-size: 13.5px; color: var(--gray-600); cursor: pointer; transition: color var(--t); }
+  .auth-quick:hover { color: var(--black); }
+
+  /* OR */
+  .or-row { display: flex; align-items: center; gap: .75rem; color: var(--gray-400); font-size: 12px; font-weight: 500; letter-spacing: .06em; }
+  .or-row::before, .or-row::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
+
+  /* Social */
+  .social-row { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+  .btn-social {
+    display: flex; align-items: center; justify-content: center; gap: .5rem;
+    padding: .7rem .5rem; background: var(--white); border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-md); font-family: var(--font-body); font-size: 13px;
+    font-weight: 600; color: var(--gray-800); cursor: pointer;
+    transition: border-color var(--t), box-shadow var(--t);
+  }
+  .btn-social:hover { border-color: var(--gray-400); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .btn-social img { width: 18px; height: 18px; object-fit: contain; }
+
+  /* Footer */
+  .page-foot { text-align: center; padding: 1rem 1rem 1.4rem; font-size: 12px; color: var(--gray-400); }
+  .page-foot a { color: var(--gray-600); transition: color var(--t); }
+  .page-foot a:hover { color: var(--black); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="header__logo">
+      <img src="https://i.postimg.cc/4dS8BKHQ/Logo-Principal-de-la-Pagina-En-Negro.png" alt="Easy Ride">
+    </a>
+    <nav class="header__nav">
+      <a href="index.html">Inicio</a>
+      <a href="componentes.html">vehículos</a>
+    </nav>
+    <div class="header__icons">
+      <a href="componentes.html"><img src="https://i.postimg.cc/5007B5y8/Icono-Nacionalidad.png" alt="Idioma"></a>
+      <a href="registrarse.html"><img src="https://i.postimg.cc/26KH2qLn/Icono-Usuario.png" alt="Usuario"></a>
+      <a href="comprar.html"><img src="https://i.postimg.cc/43w2H2fk/Icono-Carrito-Compra.png" alt="Carrito"></a>
+    </div>
+  </div>
+</header>
+
+<div class="stage">
+  <div class="auth-card">
+    <div class="auth-tabs" role="tablist">
+      <button class="tab-btn" id="tab-register" role="tab" aria-selected="false" onclick="switchTab('register')">Regístrate</button>
+      <button class="tab-btn active" id="tab-login" role="tab" aria-selected="true" onclick="switchTab('login')">Iniciar sesión</button>
+    </div>
+
+    <!-- Iniciar sesión -->
+    <div class="auth-panel" id="panel-login" role="tabpanel">
+      <div class="input-wrap">
+        <input class="auth-input" type="email" id="login-email" placeholder="E-Mail" autocomplete="email">
+      </div>
+      <div class="input-wrap">
+        <input class="auth-input" type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password" style="padding-right:2.8rem">
+        <button class="eye-btn" onclick="togglePass('login-pass',this)" tabindex="-1" aria-label="Mostrar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="auth-links">
+        <a href="#">Has olvidado tu contraseña?</a>
+        <a href="#">inicia sesion con tu numero de telefono</a>
+      </div>
+      <button class="btn-cta" onclick="handleLogin()">iniciar sesion</button>
+      <p class="auth-quick" onclick="switchTab('register')">Acceso rapido</p>
+    </div>
+
+    <!-- Regístrate -->
+    <div class="auth-panel" id="panel-register" role="tabpanel" hidden>
+      <div class="input-wrap">
+        <input class="auth-input" type="text" placeholder="Nombre completo" autocomplete="name">
+      </div>
+      <div class="input-wrap">
+        <input class="auth-input" type="email" placeholder="E-Mail" autocomplete="email">
+      </div>
+      <div class="input-wrap">
+        <input class="auth-input" type="password" id="reg-pass" placeholder="Contraseña" autocomplete="new-password" style="padding-right:2.8rem">
+        <button class="eye-btn" onclick="togglePass('reg-pass',this)" tabindex="-1" aria-label="Mostrar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <button class="btn-cta">Crear cuenta</button>
+      <div class="or-row">O</div>
+      <div class="social-row">
+        <button class="btn-social">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Google
+        </button>
+        <button class="btn-social">
+          <img src="https://i.postimg.cc/xd9FCVSt/Logo-Facebook.png" alt="Facebook"> Facebook
+        </button>
+      </div>
+      <p class="auth-quick" onclick="switchTab('login')">¿Ya tienes cuenta? Inicia sesión</p>
+    </div>
+  </div>
+</div>
+
+<p class="page-foot">© 2025 Easy Ride &nbsp;·&nbsp; <a href="#">Términos</a> &nbsp;·&nbsp; <a href="#">Privacidad</a></p>
+
+<script>
+function switchTab(tab) {
+  const other = tab === 'login' ? 'register' : 'login';
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).setAttribute('aria-selected','true');
+  document.getElementById('tab-'+other).classList.remove('active');
+  document.getElementById('tab-'+other).setAttribute('aria-selected','false');
+  document.getElementById('panel-'+tab).removeAttribute('hidden');
+  document.getElementById('panel-'+other).setAttribute('hidden','');
+}
+function togglePass(id, btn) {
+  const el = document.getElementById(id);
+  const show = el.type === 'password';
+  el.type = show ? 'text' : 'password';
+  const svg = btn.querySelector('svg');
+  svg.innerHTML = show
+    ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`
+    : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+}
+function handleLogin() {
+  const e = document.getElementById('login-email').value.trim();
+  const p = document.getElementById('login-pass').value;
+  if (!e || !p) {
+    const card = document.querySelector('.auth-card');
+    card.style.animation = 'none'; void card.offsetHeight;
+    card.style.animation = 'shake .4s ease';
+    return;
+  }
+  window.location.href = 'index.html';
+}
+const s = document.createElement('style');
+s.textContent = `@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}`;
+document.head.appendChild(s);
+</script>
+</body>
+</html>

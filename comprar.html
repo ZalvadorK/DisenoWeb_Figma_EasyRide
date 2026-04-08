@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Ride — Audi A6 Avant 2011</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+<style>
+  /* ── Estilos propios de comprar.html ── */
+  .detail { display: flex; flex-direction: column; gap: 1.8rem; }
+
+  .vehicle-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+  .vehicle-header__left { display: flex; flex-direction: column; gap: .35rem; }
+  .vehicle-title {
+    font-family: var(--font-display); font-size: 2rem;
+    font-weight: 800; letter-spacing: .01em; color: var(--black); line-height: 1;
+  }
+  .vehicle-rating { display: flex; align-items: center; gap: .35rem; margin-top: .2rem; }
+  .stars { display: flex; gap: 2px; }
+
+  .cart-icon-btn {
+    width: 38px; height: 38px; border: 2px solid var(--black); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; cursor: pointer; transition: background var(--t);
+    flex-shrink: 0;
+  }
+  .cart-icon-btn:hover { background: var(--black); }
+  .cart-icon-btn:hover img { filter: invert(1); }
+  .cart-icon-btn img { width: 20px; height: 20px; object-fit: contain; }
+
+  .vehicle-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+  .btn-price {
+    display: inline-flex; align-items: center;
+    padding: .6rem 1.25rem; background: var(--black); color: var(--white);
+    border-radius: var(--radius-md); font-size: 14px; font-weight: 700; white-space: nowrap;
+  }
+  .btn-contact {
+    display: inline-flex; align-items: center;
+    padding: .6rem 1.4rem; background: transparent;
+    border: 2px solid var(--black); border-radius: var(--radius-md);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background var(--t), color var(--t);
+  }
+  .btn-contact:hover { background: var(--black); color: var(--white); }
+
+  .vehicle-img-wrap {
+    background: var(--gray-100); border-radius: var(--radius-lg);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem 2rem; min-height: 180px;
+  }
+  .vehicle-img-wrap img {
+    max-height: 180px; width: 100%; object-fit: contain;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,.12));
+    transition: transform .4s ease;
+  }
+  .vehicle-img-wrap:hover img { transform: scale(1.03) translateY(-4px); }
+
+  .divider { border: none; border-top: 1px solid var(--gray-200); }
+
+  .section-title { font-size: 15px; font-weight: 700; color: var(--black); margin-bottom: .8rem; }
+  .spec-list { display: flex; flex-direction: column; gap: .45rem; padding-left: .1rem; }
+  .spec-list li {
+    display: flex; align-items: flex-start; gap: .55rem;
+    font-size: 14px; color: var(--gray-800); line-height: 1.5;
+  }
+  .spec-list li::before {
+    content: ''; flex-shrink: 0; margin-top: .48em;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--black);
+  }
+
+  .reviews-header { display: flex; align-items: baseline; gap: .5rem; margin-bottom: .9rem; }
+  .reviews-count { font-size: 13px; font-weight: 500; color: var(--gray-600); }
+
+  .review-list { display: flex; flex-direction: column; }
+  .review-item {
+    display: flex; align-items: flex-start; gap: .85rem;
+    padding: .9rem 0; border-bottom: 1px solid var(--gray-200);
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-avatar {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--gray-200); overflow: hidden;
+  }
+  .review-avatar svg { width: 38px; height: 38px; }
+  .review-body { flex: 1; min-width: 0; }
+  .review-top { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .15rem; }
+  .review-name { font-size: 13.5px; font-weight: 700; color: var(--black); }
+  .review-stars { display: flex; gap: 1px; }
+  .review-text { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+
+  /* Payment panel */
+  .payment {
+    position: sticky; top: calc(var(--header-h) + 1.2rem);
+    border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-hover);
+  }
+  .pay-header { background: var(--black); padding: 1.4rem 1.8rem; text-align: center; }
+  .pay-header__title {
+    font-family: var(--font-display); font-size: 2.4rem;
+    font-weight: 900; letter-spacing: .12em; color: var(--white); text-transform: uppercase;
+  }
+  .pay-body {
+    background: var(--white); padding: 1.4rem 1.8rem 1.8rem;
+    display: flex; flex-direction: column; gap: .9rem;
+  }
+  .pay-field { display: flex; flex-direction: column; gap: .25rem; }
+  .pay-label { font-size: 12px; font-weight: 600; color: var(--gray-600); letter-spacing: .03em; }
+  .pay-input-wrap { position: relative; }
+  .pay-input {
+    width: 100%; padding: .7rem .9rem;
+    background: var(--gray-100); border: 1.5px solid transparent;
+    border-radius: var(--radius-md); font-family: var(--font-body);
+    font-size: 14px; color: var(--black); outline: none;
+    transition: border-color var(--t), box-shadow var(--t), background var(--t);
+  }
+  .pay-input:focus { border-color: var(--black); background: var(--white); box-shadow: 0 0 0 3px rgba(10,10,10,.07); }
+  .pay-input::placeholder { color: var(--gray-400); }
+  .pay-card-icons {
+    position: absolute; right: .75rem; top: 50%; transform: translateY(-50%);
+    display: flex; align-items: center; gap: .3rem;
+  }
+  .cvv-icon {
+    position: absolute; right: .75rem; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 20px; background: var(--gray-200); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pay-row { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .pay-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: .55rem; margin-top: .2rem; }
+  .btn-action {
+    padding: .65rem .4rem; background: var(--black); color: var(--white);
+    border: none; border-radius: var(--radius-md); font-family: var(--font-body);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background var(--t), transform var(--t);
+  }
+  .btn-action:hover { background: var(--red); transform: translateY(-1px); }
+
+  @media (max-width: 900px) {
+    .payment { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="header__logo">
+      <img src="https://i.postimg.cc/4dS8BKHQ/Logo-Principal-de-la-Pagina-En-Negro.png" alt="Easy Ride">
+    </a>
+    <nav class="header__nav">
+      <a href="index.html">Inicio</a>
+      <a href="componentes.html">vehículos</a>
+    </nav>
+    <div class="header__search-wrap">
+      <img src="https://i.postimg.cc/9MM8dP0h/Icono-Lupa.png" alt="Buscar">
+      <input type="text" placeholder="Buscar vehículo…">
+    </div>
+    <div class="header__icons">
+      <a href="componentes.html"><img src="https://i.postimg.cc/5007B5y8/Icono-Nacionalidad.png" alt="Idioma"></a>
+      <a href="registrarse.html"><img src="https://i.postimg.cc/26KH2qLn/Icono-Usuario.png" alt="Usuario"></a>
+      <a href="comprar.html"><img src="https://i.postimg.cc/43w2H2fk/Icono-Carrito-Compra.png" alt="Carrito"></a>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="index.html" class="breadcrumb__back">← Volver al catálogo</a>
+</nav>
+
+<main class="page">
+
+  <!-- Detalle -->
+  <section class="detail">
+    <div class="vehicle-header">
+      <div class="vehicle-header__left">
+        <h1 class="vehicle-title">Audi A6 Avant 2011</h1>
+        <div class="vehicle-rating">
+          <div class="stars">
+            <svg width="18" height="18" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623" stroke="#F5A623" stroke-width=".5"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623" stroke="#F5A623" stroke-width=".5"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623" stroke="#F5A623" stroke-width=".5"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623" stroke="#F5A623" stroke-width=".5"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="hx"><stop offset="50%" stop-color="#F5A623"/><stop offset="50%" stop-color="#D5CFC4"/></linearGradient></defs><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="url(#hx)" stroke="#D5CFC4" stroke-width=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <button class="cart-icon-btn" aria-label="Agregar al carrito">
+        <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Carrito">
+      </button>
+    </div>
+
+    <div class="vehicle-actions">
+      <span class="btn-price">$380MX / Dia</span>
+      <button class="btn-contact">Contactar al vendedor</button>
+    </div>
+
+    <div class="vehicle-img-wrap">
+      <img src="https://i.postimg.cc/Vv0KTYXh/Vehiculo-(4).png" alt="Audi A6 Avant 2011">
+    </div>
+
+    <hr class="divider">
+
+    <div>
+      <p class="section-title">Estado del coche</p>
+      <ul class="spec-list">
+        <li>Motor en buen funcionamiento, arranque inmediato.</li>
+        <li>Suspensión cómoda y silenciosa.</li>
+        <li>Llantas en buen estado con buen agarre.</li>
+        <li>Interior limpio y bien conservado.</li>
+        <li>Mantenimiento básico realizado recientemente.</li>
+        <li>Capacidad para 5 personas.</li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <div>
+      <div class="reviews-header">
+        <p class="section-title" style="margin-bottom:0">Reseñas de usuarios</p>
+        <span class="reviews-count">10</span>
+      </div>
+      <div class="review-list">
+        <!-- 4 reseñas -->
+        <div class="review-item">
+          <div class="review-avatar">
+            <svg viewBox="0 0 38 38"><rect width="38" height="38" rx="19" fill="#E0E0E0"/><circle cx="19" cy="15" r="6" fill="#9E9E9E"/><path d="M6 34c0-7.18 5.82-13 13-13s13 5.82 13 13" fill="#9E9E9E"/></svg>
+          </div>
+          <div class="review-body">
+            <div class="review-top">
+              <span class="review-name">Carlos M.</span>
+              <div class="review-stars">
+                <svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg>
+                <svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg>
+                <svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg>
+                <svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg>
+                <svg width="13" height="13" viewBox="0 0 18 18"><defs><linearGradient id="h2"><stop offset="50%" stop-color="#F5A623"/><stop offset="50%" stop-color="#D5CFC4"/></linearGradient></defs><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="url(#h2)"/></svg>
+              </div>
+            </div>
+            <p class="review-text">exelente funcionamiento, muy comodo ideal para viajes largos.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-avatar"><svg viewBox="0 0 38 38"><rect width="38" height="38" rx="19" fill="#E0E0E0"/><circle cx="19" cy="15" r="6" fill="#9E9E9E"/><path d="M6 34c0-7.18 5.82-13 13-13s13 5.82 13 13" fill="#9E9E9E"/></svg></div>
+          <div class="review-body">
+            <div class="review-top"><span class="review-name">Carlos M.</span><div class="review-stars"><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><defs><linearGradient id="h3"><stop offset="50%" stop-color="#F5A623"/><stop offset="50%" stop-color="#D5CFC4"/></linearGradient></defs><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="url(#h3)"/></svg></div></div>
+            <p class="review-text">exelente funcionamiento, muy comodo ideal para viajes largos.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-avatar"><svg viewBox="0 0 38 38"><rect width="38" height="38" rx="19" fill="#E0E0E0"/><circle cx="19" cy="15" r="6" fill="#9E9E9E"/><path d="M6 34c0-7.18 5.82-13 13-13s13 5.82 13 13" fill="#9E9E9E"/></svg></div>
+          <div class="review-body">
+            <div class="review-top"><span class="review-name">Carlos M.</span><div class="review-stars"><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><defs><linearGradient id="h4"><stop offset="50%" stop-color="#F5A623"/><stop offset="50%" stop-color="#D5CFC4"/></linearGradient></defs><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="url(#h4)"/></svg></div></div>
+            <p class="review-text">exelente funcionamiento, muy comodo ideal para viajes largos.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-avatar"><svg viewBox="0 0 38 38"><rect width="38" height="38" rx="19" fill="#E0E0E0"/><circle cx="19" cy="15" r="6" fill="#9E9E9E"/><path d="M6 34c0-7.18 5.82-13 13-13s13 5.82 13 13" fill="#9E9E9E"/></svg></div>
+          <div class="review-body">
+            <div class="review-top"><span class="review-name">Carlos M.</span><div class="review-stars"><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="#F5A623"/></svg><svg width="13" height="13" viewBox="0 0 18 18"><defs><linearGradient id="h5"><stop offset="50%" stop-color="#F5A623"/><stop offset="50%" stop-color="#D5CFC4"/></linearGradient></defs><polygon points="9,1.5 11.09,6.26 16.18,6.79 12.55,10.01 13.64,15 9,12.35 4.36,15 5.45,10.01 1.82,6.79 6.91,6.26" fill="url(#h5)"/></svg></div></div>
+            <p class="review-text">exelente funcionamiento, muy comodo ideal para viajes largos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pago -->
+  <aside class="payment">
+    <div class="pay-header"><p class="pay-header__title">PAY</p></div>
+    <div class="pay-body">
+      <div class="pay-field">
+        <label class="pay-label" for="email">E-Mail</label>
+        <input class="pay-input" id="email" type="email" placeholder="correo@ejemplo.com">
+      </div>
+      <div class="pay-field">
+        <label class="pay-label">Detalles de la tarjeta</label>
+        <div class="pay-input-wrap">
+          <input class="pay-input" type="text" placeholder="Número de tarjeta" style="padding-right:7.5rem">
+          <div class="pay-card-icons">
+            <svg width="34" height="22" viewBox="0 0 34 22"><rect width="34" height="22" rx="4" fill="#1A1F71"/><text x="5" y="15" font-family="Arial" font-size="10" font-weight="900" fill="white" letter-spacing="-.5">VISA</text></svg>
+            <svg width="30" height="22" viewBox="0 0 30 22"><rect width="30" height="22" rx="4" fill="#f9f9f9"/><circle cx="11" cy="11" r="7" fill="#EB001B"/><circle cx="19" cy="11" r="7" fill="#F79E1B"/><path d="M15 5.5a7 7 0 010 11 7 7 0 000-11z" fill="#FF5F00"/></svg>
+            <svg width="30" height="22" viewBox="0 0 30 22"><rect width="30" height="22" rx="4" fill="#2D7AC8"/><text x="4" y="15" font-family="Arial" font-size="8" font-weight="900" fill="white">AMEX</text></svg>
+          </div>
+        </div>
+      </div>
+      <div class="pay-row">
+        <div class="pay-field">
+          <div class="pay-input-wrap">
+            <input class="pay-input" type="text" placeholder="MM/YY" maxlength="5">
+          </div>
+        </div>
+        <div class="pay-field">
+          <div class="pay-input-wrap">
+            <input class="pay-input" type="text" placeholder="CVC" maxlength="4" style="padding-right:2.8rem">
+            <div class="cvv-icon">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="11" rx="2" stroke="#555" stroke-width="1.4"/><rect x="2" y="8" width="16" height="2.5" fill="#555"/><rect x="4" y="12" width="4" height="1.5" rx=".75" fill="#555"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pay-actions">
+        <button class="btn-action">Elegir Días</button>
+        <button class="btn-action">Elegir Fecha</button>
+        <button class="btn-action">Elegir Zona</button>
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<script>
+  const mmyy = document.querySelector('input[placeholder="MM/YY"]');
+  if(mmyy) mmyy.addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g,'');
+    if(v.length >= 2) v = v.slice(0,2)+'/'+v.slice(2,4);
+    e.target.value = v;
+  });
+  const cardNum = document.querySelector('input[placeholder="Número de tarjeta"]');
+  if(cardNum) cardNum.addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g,'').slice(0,16);
+    v = v.match(/.{1,4}/g)?.join(' ') || v;
+    e.target.value = v;
+  });
+</script>
+</body>
+</html>

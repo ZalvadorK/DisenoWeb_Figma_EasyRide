@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Ride — Renta tu primer auto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="header__logo">
+      <img src="https://i.postimg.cc/4dS8BKHQ/Logo-Principal-de-la-Pagina-En-Negro.png" alt="Easy Ride">
+    </a>
+    <nav class="header__nav">
+      <a href="index.html">Inicio</a>
+      <a href="componentes.html">vehículos</a>
+    </nav>
+    <div class="header__search-wrap">
+      <img src="https://i.postimg.cc/9MM8dP0h/Icono-Lupa.png" alt="Buscar">
+      <input type="text" placeholder="Buscar vehículo…">
+    </div>
+    <div class="header__icons">
+      <a href="componentes.html" title="Idioma / Región">
+        <img src="https://i.postimg.cc/5007B5y8/Icono-Nacionalidad.png" alt="Idioma">
+      </a>
+      <a href="registrarse.html" title="Mi cuenta">
+        <img src="https://i.postimg.cc/26KH2qLn/Icono-Usuario.png" alt="Usuario">
+      </a>
+      <a href="comprar.html" title="Carrito">
+        <img src="https://i.postimg.cc/43w2H2fk/Icono-Carrito-Compra.png" alt="Carrito">
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="hero__content">
+    <h1 class="hero__title">
+      <span class="line-red">RENTA TU</span>
+      <span class="line-red">PRIMER AUTO</span>
+      <span class="line-white">A BAJO COSTO</span>
+    </h1>
+  </div>
+  <div class="hero__dots">
+    <span class="hero__dot active"></span>
+    <span class="hero__dot"></span>
+    <span class="hero__dot"></span>
+  </div>
+</section>
+
+<!-- ============================================================
+     VEHÍCULOS
+============================================================ -->
+<section class="vehicles">
+  <div class="container vehicles__inner">
+
+    <div class="vehicles__header">
+      <span class="vehicles__more">Mostrar mas</span>
+    </div>
+
+    <div class="vehicles__grid">
+
+      <!-- Card 1: Audi A6 Blanco — OFERTA -->
+      <a href="comprar.html" class="card-link">
+        <article class="card">
+          <div class="card__top">
+            <span class="card__badge">
+              <img src="https://i.postimg.cc/R0GpJpSC/Icono-Fuego-Ofertas.png" alt="Oferta">
+              OFERTAS
+            </span>
+            <button class="card__plus" aria-label="Agregar">
+              <img src="https://i.postimg.cc/wvvfX5M7/Icono-Mas.png" alt="+">
+            </button>
+          </div>
+          <div class="card__img-wrap">
+            <img src="https://i.postimg.cc/Vv0KTYXh/Vehiculo-(4).png" alt="Audi A6 Blanco">
+          </div>
+          <div class="card__foot">
+            <span class="card__price">$380 MXN / Día</span>
+            <a class="card__cart" href="#" onclick="event.stopPropagation()">
+              <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Agregar al carrito">
+            </a>
+          </div>
+        </article>
+      </a>
+
+      <!-- Card 2: Audi A6 Rojo — OFERTA -->
+      <a href="comprar.html" class="card-link">
+        <article class="card">
+          <div class="card__top">
+            <span class="card__badge">
+              <img src="https://i.postimg.cc/R0GpJpSC/Icono-Fuego-Ofertas.png" alt="Oferta">
+              OFERTAS
+            </span>
+            <button class="card__plus" aria-label="Agregar">
+              <img src="https://i.postimg.cc/wvvfX5M7/Icono-Mas.png" alt="+">
+            </button>
+          </div>
+          <div class="card__img-wrap">
+            <img src="https://i.postimg.cc/sxGT8V5b/Vehiculo-(5).png" alt="Audi A6 Rojo">
+          </div>
+          <div class="card__foot">
+            <span class="card__price">$380 MXN / Día</span>
+            <a class="card__cart" href="#" onclick="event.stopPropagation()">
+              <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Agregar al carrito">
+            </a>
+          </div>
+        </article>
+      </a>
+
+      <!-- Card 3: Honda Civic Negro — OFERTA -->
+      <a href="comprar.html" class="card-link">
+        <article class="card">
+          <div class="card__top">
+            <span class="card__badge">
+              <img src="https://i.postimg.cc/R0GpJpSC/Icono-Fuego-Ofertas.png" alt="Oferta">
+              OFERTAS
+            </span>
+            <button class="card__plus" aria-label="Agregar">
+              <img src="https://i.postimg.cc/wvvfX5M7/Icono-Mas.png" alt="+">
+            </button>
+          </div>
+          <div class="card__img-wrap">
+            <img src="https://i.postimg.cc/gjLg5YvF/Vehiculo-(6).png" alt="Honda Civic Negro">
+          </div>
+          <div class="card__foot">
+            <span class="card__price">$380 MXN / Día</span>
+            <a class="card__cart" href="#" onclick="event.stopPropagation()">
+              <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Agregar al carrito">
+            </a>
+          </div>
+        </article>
+      </a>
+
+      <!-- Card 4: SUV Chevrolet Azul -->
+      <a href="comprar.html" class="card-link">
+        <article class="card">
+          <div class="card__top">
+            <span class="card__badge hidden">—</span>
+            <button class="card__plus" aria-label="Agregar">
+              <img src="https://i.postimg.cc/wvvfX5M7/Icono-Mas.png" alt="+">
+            </button>
+          </div>
+          <div class="card__img-wrap">
+            <img src="https://i.postimg.cc/Qty60BKn/Vehiculo-(1).png" alt="SUV Chevrolet Azul">
+          </div>
+          <div class="card__foot">
+            <span class="card__price">$700 MXN / Día</span>
+            <a class="card__cart" href="#" onclick="event.stopPropagation()">
+              <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Agregar al carrito">
+            </a>
+          </div>
+        </article>
+      </a>
+
+      <!-- Card 5: SUV Buick Azul -->
+      <a href="comprar.html" class="card-link">
+        <article class="card">
+          <div class="card__top">
+            <span class="card__badge hidden">—</span>
+            <button class="card__plus" aria-label="Agregar">
+              <img src="https://i.postimg.cc/wvvfX5M7/Icono-Mas.png" alt="+">
+            </button>
+          </div>
+          <div class="card__img-wrap">
+            <img src="https://i.postimg.cc/KzH9JK3d/Vehiculo-(2).png" alt="SUV Buick Azul">
+          </div>
+          <div class="card__foot">
+            <span class="card__price">$700 MXN / Día</span>
+            <a class="card__cart" href="#" onclick="event.stopPropagation()">
+              <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Agregar al carrito">
+            </a>
+          </div>
+        </article>
+      </a>
+
+      <!-- Card 6: SUV Alfa Romeo Blanco -->
+      <a href="comprar.html" class="card-link">
+        <article class="card">
+          <div class="card__top">
+            <span class="card__badge hidden">—</span>
+            <button class="card__plus" aria-label="Agregar">
+              <img src="https://i.postimg.cc/wvvfX5M7/Icono-Mas.png" alt="+">
+            </button>
+          </div>
+          <div class="card__img-wrap">
+            <img src="https://i.postimg.cc/NF2dVgRP/Vehiculo-(3).png" alt="SUV Alfa Romeo Blanco">
+          </div>
+          <div class="card__foot">
+            <span class="card__price">$700 MXN / Día</span>
+            <a class="card__cart" href="#" onclick="event.stopPropagation()">
+              <img src="https://i.postimg.cc/6Qzb4b9M/Icono-Agregar-Bolsa.png" alt="Agregar al carrito">
+            </a>
+          </div>
+        </article>
+      </a>
+
+    </div><!-- /.vehicles__grid -->
+  </div>
+</section>
+
+<!-- ============================================================
+     MAPA
+============================================================ -->
+<section class="map-section">
+  <div class="map-section__inner">
+    <div class="map-section__bar">
+      <div class="map-section__bar-item">
+        <img src="https://i.postimg.cc/5tfk0WMT/Icono-de-Ubicacion.png" alt="Zona">
+        <span>Elige tu zona</span>
+      </div>
+      <span class="map-section__bar-sep">|</span>
+      <div class="map-section__bar-item">
+        <img src="https://i.postimg.cc/N0bC2Cgz/Icono-Calendario.png" alt="Fecha">
+        <span>// //</span>
+      </div>
+    </div>
+    <div class="map-section__map-wrap">
+      <img class="map-section__map"
+        src="https://i.postimg.cc/bwSgmFNP/Mapa.png"
+        alt="Mapa de zonas de entrega">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>
+      <img class="footer__logo"
+        src="https://i.postimg.cc/4dS8BKHQ/Logo-Principal-de-la-Pagina-En-Negro.png"
+        alt="Easy Ride">
+    </div>
+    <div>
+      <p class="footer__block-title">Contacto</p>
+      <p class="footer__text">+52 22 29 07 50 50</p>
+    </div>
+    <div>
+      <p class="footer__block-title">E-Mail</p>
+      <p class="footer__text">EasyRide@gmail.com</p>
+    </div>
+    <div>
+      <p class="footer__social-title">Redes sociales:</p>
+      <div class="footer__socials">
+        <a class="footer__social-link" href="#">
+          <img src="https://i.postimg.cc/Dz7YZ3K5/Logo-Instagram.png" alt="Instagram">
+          EasyRide.Ofi
+        </a>
+        <a class="footer__social-link" href="#">
+          <img src="https://i.postimg.cc/SKmtsbpg/Logo-Twitter.png" alt="Twitter">
+          EasyRide.Ofi
+        </a>
+        <a class="footer__social-link" href="#">
+          <img src="https://i.postimg.cc/xd9FCVSt/Logo-Facebook.png" alt="Facebook">
+          EasyRide
+        </a>
+        <a class="footer__social-link" href="#">
+          <img src="https://i.postimg.cc/TPTHwvXH/Logo-Whats-App.png" alt="WhatsApp">
+          +52 22 29 07 50 50
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Dot pager */
+  const dots = document.querySelectorAll('.hero__dot');
+  let cur = 0;
+  setInterval(() => {
+    dots[cur].classList.remove('active');
+    cur = (cur + 1) % dots.length;
+    dots[cur].classList.add('active');
+  }, 3200);
+</script>
+</body>
+</html>
